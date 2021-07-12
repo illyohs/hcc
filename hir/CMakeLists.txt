@@ -9,5 +9,5 @@ find_package(fmt CONFIG REQUIRED)
 set(HIR_SRC
 )
 
-add_executable(hir ${HIR_SRC})
-target_link_libraries(hir PRIVATE fmt::fmt)
+#add_executable(hir ${HIR_SRC})
+#target_link_libraries(hir PRIVATE fmt::fmt)
