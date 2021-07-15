@@ -11,7 +11,6 @@ namespace hcc
   class Token;
   class Posistion;
 
-  //TODO: remove lable function and directive
   enum Instruction
   {
     ADD,
@@ -23,7 +22,6 @@ namespace hcc
     XOR,
     NOT,
     DATA,
-    LABLE,
     CMP_EQ,
     CMP_LT,
     CMP_GT,
@@ -31,14 +29,13 @@ namespace hcc
     JMP_NQ,
     JMP_EQ,
     JMP_ERR,
-    FUNC,
     DEREF,
     PTRTO,
     CALL,
     STORE,
     WRITE,
+    RETURN,
   };
-
 
   struct OpCode
   {
@@ -47,18 +44,30 @@ namespace hcc
     Instruction   instruction;
   };
 
-
-  //TODO: Finish the opcode map
   const std::unordered_map<std::string, OpCode> OpCodes =
   {
-    {"add", {"add", 0x01, ADD}},
-    {"sub", {"sub", 0x02, SUB}},
-    {"div", {"div", 0x03, DIV}},
-    {"mul", {"mul", 0x04, MUL}},
-    {"and", {"and", 0x05, AND}},
-    {"or",  {"or",  0x06, OR}},
-    {"xor", {"xor", 0x07, XOR}},
-
+    {"add",     {"add",     0x01, ADD}},
+    {"sub",     {"sub",     0x02, SUB}},
+    {"div",     {"div",     0x03, DIV}},
+    {"mul",     {"mul",     0x04, MUL}},
+    {"and",     {"and",     0x05, AND}},
+    {"or",      {"or",      0x06, OR}},
+    {"xor",     {"xor",     0x07, XOR}},
+    {"not",     {"not",     0x08, NOT}},
+    {"data",    {"data",    0x09, DATA}},
+    {"cmp_eq",  {"cmp_eq",  0x0A, CMP_EQ}},
+    {"cmp_lt",  {"cmp_lt",  0x0B, CMP_LT}},
+    {"cmp_gt",  {"cmp_gt",  0x0C, CMP_GT}},
+    {"jmp",     {"jmp",     0x0D, JMP}},
+    {"jmp_nq",  {"jmp_nq",  0x0E, JMP_NQ}},
+    {"jmp_eq",  {"jmp_eq",  0x0F, JMP_EQ}},
+    {"jmp_err", {"jmp_err", 0x0F, JMP_ERR}},
+    {"deref",   {"deref",   0x10, DEREF}},
+    {"ptrto",   {"ptrto",   0x11, PTRTO}},
+    {"call",    {"call",    0x12, CALL}},
+    {"store",   {"store",   0x13, STORE}},
+    {"write",   {"write",   0x14, WRITE}},
+    {"return",  {"return",  0x15, RETURN}}
   };
 
   enum Type
@@ -72,16 +81,19 @@ namespace hcc
   };
 
 
-  class Posistion
+  struct Posistion
   {
     int line, start, end, length;
+
+    Posistion(int line, int start, int end, int length): line(line), start(start), end(end), length(length){}
   };
 
-  class Token
+  struct Token
   {
-    public:
-      std::string lexme;
-      Posistion pos;
-      Type type;
+    std::string lexme;
+    Posistion pos;
+    Type type;
+
+    Token(std::string lexme, Posistion pos, Type type): lexme(lexme), pos(pos), type(type){}
   };
 }
